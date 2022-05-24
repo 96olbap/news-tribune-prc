@@ -6,6 +6,7 @@ class Editor(models.Model):
     first_name = models.CharField(max_length =30)
     last_name = models.CharField(max_length =30)
     email = models.EmailField()
+    phone_number = models.CharField(max_length=10, blank = True)
 
     def __str__(self):
         return self.first_name
@@ -28,3 +29,6 @@ class Article(models.Model):
     editor = models.ForeignKey(Editor, on_delete=models.DO_NOTHING,)
     tags = models.ManyToManyField(Tags)
     pub_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
