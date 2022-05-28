@@ -1,2 +1,3 @@
 virtial/
 *.pyc
+.env
