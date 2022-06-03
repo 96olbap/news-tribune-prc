@@ -4,6 +4,7 @@ import datetime as dt
 from .models import Article, NewsLetterReceipients,NewsLetterReceipients
 from django.core.exceptions import ObjectDoesNotExist
 from .forms import NewsLetterForm
+from .email import send_welcome_email
 
 # Create your views here.
 
@@ -19,6 +20,8 @@ def news_of_day(request):
             email = form.cleaned_data['email']
             recipient = NewsLetterReceipients(name = name,email =email)
             recipient.save()
+            send_welcome_email(name,email)
+
             HttpResponseRedirect('news_of_day')
         else:
             form = NewsLetterForm()
