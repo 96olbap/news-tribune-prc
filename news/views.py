@@ -10,7 +10,7 @@ from .forms import NewsLetterForm
 def news_of_day(request):
     date = dt.date.today()
     news = Article.todays_news()
-    
+    form = NewsLetterForm
 
     if request.method == 'POST':
         form = NewsLetterForm(request.POST)
@@ -22,7 +22,8 @@ def news_of_day(request):
             HttpResponseRedirect('news_of_day')
         else:
             form = NewsLetterForm()
-        return render(request, 'all-news/today-news.html', {'date': date, 'news': news, 'letterForm':form})
+
+    return render(request, 'all-news/today-news.html', {'date': date, 'news': news, 'letterForm':form})
 
 # View Function to present news from past days
 def past_days_news(request, past_date):
