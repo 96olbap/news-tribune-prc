@@ -33,7 +33,7 @@
     </div>
     {% endfor %}
     <div class="container-fluid">
-
+        <h4>Subscribe to our Newsletter</h4>
         <form action="{%url 'newsToday'%}" method="post">
             {%csrf_token%} {% bootstrap_form letterForm layout='inline' %}
             <input type="submit" value="Subscribe">
