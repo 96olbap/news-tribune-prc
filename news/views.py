@@ -1,16 +1,28 @@
 from django.shortcuts import render, redirect
-from django.http  import HttpResponse, Http404
+from django.http  import HttpResponse, Http404, HttpResponseRedirect
 import datetime as dt
-from .models import Article
+from .models import Article, NewsLetterReceipients,NewsLetterReceipients
 from django.core.exceptions import ObjectDoesNotExist
+from .forms import NewsLetterForm
 
 # Create your views here.
 
 def news_of_day(request):
     date = dt.date.today()
     news = Article.todays_news()
-    return render(request, 'all-news/today-news.html', {'date': date, 'news': news})
+    
 
+    if request.method == 'POST':
+        form = NewsLetterForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['your_name']
+            email = form.cleaned_data['email']
+            recipient = NewsLetterReceipients(name = name,email =email)
+            recipient.save()
+            HttpResponseRedirect('news_of_day')
+        else:
+            form = NewsLetterForm()
+        return render(request, 'all-news/today-news.html', {'date': date, 'news': news, 'letterForm':form})
 
 # View Function to present news from past days
 def past_days_news(request, past_date):
